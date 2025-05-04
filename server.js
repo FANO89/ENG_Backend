@@ -2,15 +2,21 @@ const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 
+require("dotenv").config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",   // ถ้ามีรหัสผ่าน ให้ใส่ที่นี่
-  database: "faculty"
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,         // ไม่ลืม port!
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: false,
+  }
 });
 
 db.connect(err => {
